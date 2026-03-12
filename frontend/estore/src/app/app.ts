@@ -1,11 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Header } from './components/header/header';
-import { CategoryNavigation } from './components/category.navigation/category.navigation';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, CategoryNavigation],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
