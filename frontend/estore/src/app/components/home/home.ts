@@ -3,18 +3,22 @@ import { Header } from './header/header';
 import { CategoryNavigation } from './category.navigation/category.navigation';
 import { SideNavigation } from './side-navigation/side-navigation';
 import { Products } from '../products/products';
-import { CategoryService } from './services/category-service';
-import { CategoriesStore } from './services/categories-store';
+import { CategoriesStore } from './services/category/categories-store';
+import { ProductsStore } from './services/product/products-store';
 
 @Component({
   selector: 'app-home',
   imports: [Header, CategoryNavigation, SideNavigation, Products],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  providers: [CategoryService, CategoriesStore],
+  providers: [CategoriesStore, ProductsStore],
 })
 export class Home {
-  constructor(private categoriesStore: CategoriesStore) {
+  constructor(
+    private categoriesStore: CategoriesStore,
+    private productsStore: ProductsStore,
+  ) {
     this.categoriesStore.loadCategories();
+    this.productsStore.loadProducts();
   }
 }

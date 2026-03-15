@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { Category } from '../types/category';
-import { CategoryService } from './../services/category-service';
-import { CategoriesStore } from '../services/categories-store';
+import { CategoryService } from '../services/category/category-service';
+import { CategoriesStore } from '../services/category/categories-store';
 
 @Component({
   selector: 'app-side-navigation',
