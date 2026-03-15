@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ProductListItem } from './products-type';
-import { products } from './products-data';
+import { GetProductResponse, Product } from './products-type';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class ProductsService {
-  constructor() {}
+  private baseUrl = 'http://localhost:8080/api/products';
+  constructor(private httpClient: HttpClient) {}
 
-  getProductsList(): ProductListItem[] {
-    return products;
+  getProductsList(): Observable<Product[]> {
+    return this.httpClient
+      .get<GetProductResponse>(this.baseUrl)
+      .pipe(map((response) => response._embedded.products));
   }
 }
