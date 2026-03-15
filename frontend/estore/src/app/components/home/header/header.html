@@ -5,9 +5,9 @@
     </div>
     <div class="p-0 my-4 w-[50%] h-[2.5rem] bg-white flex items-center">
       <select class="w-auto bg-gray-300 h-full border-none font-semibold px-2 pr-5">
-        <option value="">Men</option>
-        <option value="">Women</option>
-        <option value="">Kids</option>
+        @for (mainCategory of categoriesStore.topLevelCategories(); track $index) {
+          <option value="">{{ mainCategory.categoryName }}</option>
+        }
       </select>
       <input
         type="text"
