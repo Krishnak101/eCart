@@ -21,6 +21,13 @@
 - **Root Cause:** The project was compiled for **Java 17** (v61), but the IDE was attempting to execute it using a **Java 16** (v60) runtime environment.
 - **Fix:** 1. Installed **JDK 21** to provide long-term support and backward compatibility. 2. Registered the new JDK in STS under `Window > Preferences > Java > Installed JREs`. 3. Updated the Windows `JAVA_HOME` environment variable and mapped the project **Execution Environment** to Java 21 to ensure alignment between Maven and the IDE.
 
+## 4. UI State Out of Sync due to Provider Shadowing
+
+**Issue:** API calls were successful and the store was updating, but the `Products` component UI remained static and did not show filtered results.
+
+- **Root Cause:** **Redundant Providers.** The `ProductsStore` was listed in the `providers` array of both the `Home` (parent) and `Products` (child) components. This caused Angular to instantiate two separate store objects. The parent was updating one instance, while the child was rendering data from the other.
+- **Fix:** Removed `ProductsStore` and `ProductsService` from the child component's `providers` list. This allowed the child to "inherit" the singleton instance from the parent via Angular's hierarchical Dependency Injection.
+
 # Dependencies
 
 ## Installed Fontawesome libraries:

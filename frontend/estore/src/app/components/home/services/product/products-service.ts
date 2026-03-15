@@ -1,16 +1,27 @@
 import { Injectable } from '@angular/core';
 import { GetProductResponse, Product } from '../../types/products-type';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class ProductsService {
   private baseUrl = 'http://localhost:8080/api/products';
   constructor(private httpClient: HttpClient) {}
-
-  getProductsList(): Observable<Product[]> {
+  private additionalPath = '';
+  getProductsList(filters?: {
+    mainCategoryId?: number;
+    subCategoryId?: number;
+  }): Observable<Product[]> {
+    let params = new HttpParams();
+    if (filters?.mainCategoryId != null) {
+      this.additionalPath = '/search/findByCategoryParentCategoryId';
+      params = params.set('id', filters.mainCategoryId.toString());
+    } else if (filters?.subCategoryId != null) {
+      this.additionalPath = '/search/findByCategoryId';
+      params = params.set('id', filters.subCategoryId.toString());
+    }
     return this.httpClient
-      .get<GetProductResponse>(this.baseUrl)
+      .get<GetProductResponse>(this.baseUrl+this.additionalPath, {params})
       .pipe(map((response) => response._embedded.products));
   }
 }

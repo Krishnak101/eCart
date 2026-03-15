@@ -8,7 +8,7 @@ import { CategoriesStore } from '../services/category/categories-store';
   imports: [],
   templateUrl: './category.navigation.html',
   styleUrl: './category.navigation.css',
-  providers: [CategoriesStore],
+  providers: [CategoriesStore, CategoryService],
 })
 export class CategoryNavigation {
   constructor(public categoriesStore: CategoriesStore) {}

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
@@ -19,8 +19,13 @@ export class SideNavigation {
   private categoryStore = inject(CategoriesStore);
 
   readonly categories = this.categoryStore.categories;
+  readonly subcategoryclicked = output<number>();
 
   getCategories(parent_category_id?: number): Category[] {
     return this.categories().filter((category) => category.parentCategoryId == parent_category_id);
+  }
+
+  onSubCategoryClick(subcategoryid: number): void {
+    this.subcategoryclicked.emit(subcategoryid);
   }
 }

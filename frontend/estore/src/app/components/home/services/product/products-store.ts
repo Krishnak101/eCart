@@ -11,9 +11,9 @@ export class ProductsStore {
     this.loadProducts();
   }
 
-  loadProducts(): void {
-    this.ProductsService.getProductsList().subscribe((products) => {
-      this._products.set(products);
+  loadProducts(filters?: { mainCategoryId?: number; subCategoryId?: number }): void {
+    this.ProductsService.getProductsList(filters).subscribe((newProducts) => {
+      this._products.set(newProducts);
     });
   }
 }
