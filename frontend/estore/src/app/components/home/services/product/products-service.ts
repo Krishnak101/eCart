@@ -20,8 +20,9 @@ export class ProductsService {
       this.additionalPath = '/search/findByCategoryId';
       params = params.set('id', filters.subCategoryId.toString());
     }
+
     return this.httpClient
-      .get<GetProductResponse>(this.baseUrl+this.additionalPath, {params})
+      .get<GetProductResponse>(this.baseUrl + this.additionalPath, { params })
       .pipe(map((response) => response._embedded.products));
   }
 }

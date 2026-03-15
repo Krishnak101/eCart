@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { CategoryService } from '../services/category/category-service';
 import { Category } from '../types/category';
 import { CategoriesStore } from '../services/category/categories-store';
@@ -11,5 +11,10 @@ import { CategoriesStore } from '../services/category/categories-store';
   providers: [CategoriesStore, CategoryService],
 })
 export class CategoryNavigation {
+  readonly categoryclicked = output<number>();
   constructor(public categoriesStore: CategoriesStore) {}
+
+  onCategoryClick(mainCategoryId: number): void {
+    this.categoryclicked.emit(mainCategoryId);
+  }
 }
