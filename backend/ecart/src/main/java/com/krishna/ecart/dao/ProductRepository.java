@@ -20,5 +20,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "SELECT * FROM products p WHERE p.keywords REGEXP :keyword", 
            nativeQuery = true)
     Page<Product> findByKeywordsRegex(@Param("keyword") String regex, Pageable pageable);
+    
+ // Combines Parent Category filtering with Full-Text keyword matching
+    @Query(value = "SELECT p.* FROM products p " +
+                   "JOIN product_categories pc ON p.category_id = pc.id " +
+                   "WHERE pc.parent_category_id = :parentId " +
+                   "AND p.keywords REGEXP :keyword", 
+           nativeQuery = true)
+    Page<Product> findByParentCategoryAndKeywords(
+        @Param("parentId") Integer parentId, 
+        @Param("keyword") String query, 
+        Pageable pageable);
 
 }
