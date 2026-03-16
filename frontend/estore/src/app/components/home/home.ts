@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { Header } from './header/header';
 import { CategoryNavigation } from './category.navigation/category.navigation';
-import { SideNavigation } from './side-navigation/side-navigation';
-import { Products } from '../products/products';
 import { CategoriesStore } from './services/category/categories-store';
 import { ProductsStore } from './services/product/products-store';
 import { CategoryService } from './services/category/category-service';
 import { ProductsService } from './services/product/products-service';
 import { SearchKeyword } from './types/searchKeyword-type';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [Header, CategoryNavigation, SideNavigation, Products],
+  imports: [Header, CategoryNavigation, RouterOutlet],
   templateUrl: './home.html',
   styleUrl: './home.css',
   providers: [CategoriesStore, ProductsStore, CategoryService, ProductsService],
@@ -23,10 +22,6 @@ export class Home {
   ) {
     this.categoriesStore.loadCategories();
     this.productsStore.loadProducts();
-  }
-
-  onSelectSubCategory(subcategoryid: number): void {
-    this.productsStore.loadProducts({ subCategoryId: subcategoryid });
   }
 
   onSelectMainCategory(mainCategoryId: number): void {
