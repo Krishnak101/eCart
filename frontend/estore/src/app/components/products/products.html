@@ -1,22 +1,33 @@
 <div class="flex flex-wrap justify-evenly">
-  @for (product of productsStore.products(); track product.id) {
-    <div class="mx-4 p-3 my-4 flex flex-col rounded-lg shadow-md">
-      <div class="overflow-hidden rounded-md">
-        <img
-          [src]="'/assets/images/' + product.imageUrl"
-          [alt]="product.productName"
-          class="rounded-md mx-auto transition-transform duration-300 ease-in-out transform hover:scale-105"
-        />
-      </div>
-      <div class="p-4 text-center">
-        <h5 class="font-semibold">
-          <a href="#" class="text-black hover:text-black no-underline">{{ product.productName }}</a>
-        </h5>
-        <p class="text-base font-normal mt-1">{{ product.price | currency }}</p>
-        <ng-container>
-          <app-ratings [score]="product.ratings"></app-ratings>
-        </ng-container>
-      </div>
+  @if (productsStore.products().length === 0) {
+    <div class="w-full text-center mt-10 py-10 text-[50px] text-gray-500 font-medium">
+      <p>
+        <fa-icon [icon]="faBoxOpen" class="text-[60px]"></fa-icon>
+        No products found..
+      </p>
     </div>
+  } @else {
+    @for (product of productsStore.products(); track product.id) {
+      <div class="mx-4 p-3 my-4 flex flex-col rounded-lg shadow-md">
+        <div class="overflow-hidden rounded-md">
+          <img
+            [src]="'/assets/images/' + product.imageUrl"
+            [alt]="product.productName"
+            class="rounded-md mx-auto transition-transform duration-300 ease-in-out transform hover:scale-105"
+          />
+        </div>
+        <div class="p-4 text-center">
+          <h5 class="font-semibold">
+            <a href="#" class="text-black hover:text-black no-underline">{{
+              product.productName
+            }}</a>
+          </h5>
+          <p class="text-base font-normal mt-1">{{ product.price | currency }}</p>
+          <ng-container>
+            <app-ratings [score]="product.ratings"></app-ratings>
+          </ng-container>
+        </div>
+      </div>
+    }
   }
 </div>
