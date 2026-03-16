@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Page<Product> findByProductName(@Param("name")String productname, Pageable pageable);
 
 //  find Products where Category.parentCategoryId equals (?)
-	Page<Product> findByCategoryParentCategoryId(@Param("id")int parentCategoryId, Pageable pageable);
+	Page<Product> findByCategoryParentCategoryId(@Param("parentId")int parentCategoryId, Pageable pageable);
 	
 // Using REGEXP to match the word at start, middle (between commas), or end
     @Query(value = "SELECT * FROM products p WHERE p.keywords REGEXP :keyword", 

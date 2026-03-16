@@ -28,6 +28,13 @@
 - **Root Cause:** **Redundant Providers.** The `ProductsStore` was listed in the `providers` array of both the `Home` (parent) and `Products` (child) components. This caused Angular to instantiate two separate store objects. The parent was updating one instance, while the child was rendering data from the other.
 - **Fix:** Removed `ProductsStore` and `ProductsService` from the child component's `providers` list. This allowed the child to "inherit" the singleton instance from the parent via Angular's hierarchical Dependency Injection.
 
+## 5. Implicit Object Literal vs. Explicit Interface Type
+
+**Issue:** The `output.emit()` call failed to register correctly in the parent component, even though the data structure appeared correct.
+
+- **Root Cause:** **Structural Type Validation.** While the emitted object `{ categoryId: ..., keyword: ... }` looked like a `SearchKeyword`, Angular's strict template checking sometimes fails to implicitly cast a raw object literal to a custom interface when passed through an event binding. This often results in the parent component's handler receiving a generic `Event` or `any` instead of the specific type.
+- **Fix:** Explicitly ensured the emitted data was treated as a `SearchKeyword` type. This provided the "type safety" necessary for the `Home` component to recognize the properties `categoryId` and `keyword` without throwing a compilation error.
+
 # Dependencies
 
 ## Installed Fontawesome libraries:

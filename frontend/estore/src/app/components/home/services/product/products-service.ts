@@ -11,11 +11,19 @@ export class ProductsService {
   getProductsList(filters?: {
     mainCategoryId?: number;
     subCategoryId?: number;
+    keyword?: string;
   }): Observable<Product[]> {
     let params = new HttpParams();
     if (filters?.mainCategoryId != null) {
-      this.additionalPath = '/search/findByCategoryParentCategoryId';
-      params = params.set('id', filters.mainCategoryId.toString());
+      if (filters.keyword) {
+        this.additionalPath = '/search/findByParentCategoryAndKeywords';
+        params = params
+          .set('parentId', filters.mainCategoryId.toString())
+          .set('keyword', filters.keyword);
+      } else {
+        this.additionalPath = '/search/findByCategoryParentCategoryId';
+        params = params.set('parentId', filters.mainCategoryId.toString());
+      }
     } else if (filters?.subCategoryId != null) {
       this.additionalPath = '/search/findByCategoryId';
       params = params.set('id', filters.subCategoryId.toString());
