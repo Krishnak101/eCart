@@ -46,4 +46,7 @@ public class Product {
 	@Column
 	private Integer ratings;
 	
+	@Column
+	private String keywords;
+	
 }

@@ -65,3 +65,14 @@ VALUES ('Jacket', 'A warm cozy jacket perfect for all seasons',
 
 select * from products;
 
+alter table ecommerce.products add column keywords varchar(255) null;
+
+update products set keywords = 'jacket,woolen,black,women' where id=1;
+update ecommerce.products set keywords = 'bag,purse,leather,black' where id=2;
+update ecommerce.products set keywords = 'dress,party,frock' where id=3;
+update ecommerce.products set keywords = 'denim,jeans,casual,pant,men' where id=4;
+update ecommerce.products set keywords = 'boots,laced,yellow' where id=5;
+update ecommerce.products set keywords = 'leather,black,bag' where id=6;
+update ecommerce.products set keywords = 'ear,rings,blue,golden,kids' where id=7;
+update ecommerce.products set keywords = 'scarf,chocolate,party' where id=8;
+update ecommerce.products set keywords = 'leather,black,boots, shoes' where id=9;
