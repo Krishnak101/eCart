@@ -1,5 +1,5 @@
 <div class="w-full shadow-lg shadow gray-500/50 bg-gray-900">
-  <div class="flex items-center justify-between max-w-6xl mx-auto h-14">
+  <div class="flex items-center justify-between">
     <div class="text-white ml-2 p-3 w-[23%]">
       <h1 class="text-xl font-bold">eStore</h1>
     </div>
@@ -43,9 +43,22 @@
         </h5>
       </div>
     </div>
-    <div class="flex items-center gap-4 text-white text-[1.3em] mx-4">
-      <fa-icon [icon]="faHeart"></fa-icon>
-      <fa-icon [icon]="faShoppingCart"></fa-icon>
+    <div class="flex items-center gap-4 text-white mx-4">
+      <fa-icon [icon]="faHeart" class="text-[1.3em]"></fa-icon>
+      <button
+        type="button"
+        class="flex items-center justify-center text-white p-2 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+      >
+        <fa-icon [icon]="faShoppingCart" class="text-[1.3em]"></fa-icon>
+      </button>
+
+      @if (cartStore.cart() && cartStore.totalProductsCount() > 0) {
+        <span
+          class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold rounded-full px-1"
+        >
+          {{ cartStore.cart().totalCount }}
+        </span>
+      }
     </div>
   </div>
 </div>

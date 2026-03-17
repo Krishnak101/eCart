@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ratings } from '../ratings/ratings';
 import { ProductsStore } from './../home/services/product/products-store';
-import { faBoxOpen } from '@fortawesome/free-solid-svg-icons';
+import { faBoxOpen, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RouterLink } from "@angular/router";
+import { RouterLink } from '@angular/router';
+import { CartStore } from '../home/services/cart/cart-store';
+import { Product } from '../home/types/products-type';
 
 @Component({
   selector: 'app-products',
@@ -14,5 +16,13 @@ import { RouterLink } from "@angular/router";
 })
 export class Products {
   faBoxOpen = faBoxOpen;
-  constructor(public productsStore: ProductsStore) {}
+  faShoppingCart = faShoppingCart;
+  constructor(
+    public productsStore: ProductsStore,
+    private cart: CartStore,
+  ) {}
+
+  addToCart(product: Product): void {
+    this.cart.addProductToCart(product);
+  }
 }

@@ -2,6 +2,7 @@ import { Component, output, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch, faUserCircle, faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesStore } from '../services/category/categories-store';
+import { CartStore } from '../services/cart/cart-store';
 import { SearchKeyword } from '../types/searchKeyword-type';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs';
@@ -25,6 +26,7 @@ export class Header {
   constructor(
     public categoriesStore: CategoriesStore,
     private router: Router,
+    public cartStore: CartStore,
   ) {
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.displaySearch.set(this.router.url === '/home/products');

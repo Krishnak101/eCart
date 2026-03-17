@@ -7,13 +7,14 @@ import { CategoryService } from './services/category/category-service';
 import { ProductsService } from './services/product/products-service';
 import { SearchKeyword } from './types/searchKeyword-type';
 import { RouterOutlet } from '@angular/router';
+import { CartStore } from './services/cart/cart-store';
 
 @Component({
   selector: 'app-home',
   imports: [Header, CategoryNavigation, RouterOutlet],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  providers: [CategoriesStore, ProductsStore, CategoryService, ProductsService],
+  providers: [CategoriesStore, ProductsStore, CategoryService, ProductsService, CartStore],
 })
 export class Home {
   constructor(

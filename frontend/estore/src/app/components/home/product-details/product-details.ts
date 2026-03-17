@@ -7,10 +7,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Product } from '../types/products-type';
 import { CommonModule } from '@angular/common';
+import { CartStore } from '../services/cart/cart-store';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-product-details',
-  imports: [Ratings, CommonModule],
+  imports: [Ratings, CommonModule, FontAwesomeModule],
   templateUrl: './product-details.html',
   styleUrl: './product-details.css',
 })
@@ -18,8 +21,10 @@ export class ProductDetails {
   private readonly route = inject(ActivatedRoute);
 
   private readonly productsService = inject(ProductsService);
+  private readonly cart = inject(CartStore);
 
   readonly product = signal<Product | null>(null);
+  faShoppingCart = faShoppingCart;
 
   constructor() {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -31,6 +36,13 @@ export class ProductDetails {
         .subscribe((res) => {
           this.product.set(Array.isArray(res) ? res[0] : res);
         });
+    }
+  }
+
+  addToCart(): void {
+    const currentProduct = this.product();
+    if (currentProduct) {
+      this.cart.addProductToCart(currentProduct);
     }
   }
 }
