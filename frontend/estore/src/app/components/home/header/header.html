@@ -5,7 +5,7 @@
     </div>
     <!-- Search Bar   -->
     @if (displaySearch()) {
-      <div class="p-0 my-4 w-[50%] h-[2.5rem] bg-white flex items-center">
+      <div class="p-0 my-2 w-[50%] h-[2.5rem] bg-white flex items-center">
         <select
           #categoryoptions
           class="w-auto bg-gray-300 h-full border-none font-semibold px-2 pr-5"
@@ -28,7 +28,7 @@
         </button>
       </div>
     } @else {
-      <div class="p-0 my-4 w-[50%] h-[2.5rem] flex items-center"></div>
+      <div class="p-0 my-2 w-[50%] h-[2.5rem] flex items-center"></div>
     }
 
     <div class="flex items-center w-[27%] gap-6 justify-end h-full">
@@ -47,7 +47,8 @@
       <fa-icon [icon]="faHeart" class="text-[1.3em]"></fa-icon>
       <button
         type="button"
-        class="flex items-center justify-center text-white p-2 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+        class="flex items-center justify-center text-white py-1 px-1 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors duration-300 cursor-pointer"
+        (click)="navigateToCart()"
       >
         <fa-icon [icon]="faShoppingCart" class="text-[1.3em]"></fa-icon>
       </button>

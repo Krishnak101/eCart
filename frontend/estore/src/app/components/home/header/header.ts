@@ -40,4 +40,8 @@ export class Header {
     };
     this.searchclicked.emit(searchKeyword);
   }
+
+  navigateToCart(): void {
+    this.router.navigate(['/home/cart']);
+  }
 }
