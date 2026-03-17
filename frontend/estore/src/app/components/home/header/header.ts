@@ -1,8 +1,11 @@
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faSearch, faUserCircle, faHeart, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { CategoriesStore } from '../services/category/categories-store';
 import { SearchKeyword } from '../types/searchKeyword-type';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
+
 @Component({
   selector: 'app-header',
   imports: [FontAwesomeModule],
@@ -17,7 +20,16 @@ export class Header {
   faShoppingCart = faShoppingCart;
 
   readonly searchclicked = output<SearchKeyword>();
-  constructor(public categoriesStore: CategoriesStore) {}
+  displaySearch = signal(true);
+
+  constructor(
+    public categoriesStore: CategoriesStore,
+    private router: Router,
+  ) {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      this.displaySearch.set(this.router.url === '/home/products');
+    });
+  }
 
   onSearchClick(keyword: string, categoryId: string): void {
     const searchKeyword: SearchKeyword = {

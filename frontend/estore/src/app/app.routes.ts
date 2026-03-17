@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { NotFound } from './components/not-found/not-found';
 import { ProductsGallery } from './components/home/products-gallery/products-gallery';
+import { ProductDetails } from './components/home/product-details/product-details';
 
 export const routes: Routes = [
   {
@@ -10,6 +11,10 @@ export const routes: Routes = [
       {
         path: 'products',
         component: ProductsGallery,
+      },
+      {
+        path: 'product/:id',
+        component: ProductDetails,
       },
     ],
   },
