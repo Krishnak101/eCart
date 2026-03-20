@@ -2,60 +2,94 @@
   @if (cartStore.cart().items.length > 0) {
     <div class="w-[70%] text-center mx-auto my-12">
       <h2 class="text-[1.8em] font-bold mb-6">Your Shopping Cart</h2>
-      <div class="flex flex-col gap-4">
-        @for (itemStore of cartStore.cart().items; track $index) {
-          <div
-            class="flex flex-wrap md:flex-nowrap mb-8 shadow-md p-4 rounded-lg bg-white items-center"
-          >
-            <div class="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
-              <img
-                [src]="'../../../../assets/images/' + itemStore.item.imageUrl"
-                alt="{{ itemStore.item.productName }}"
-                class="h-[9em] object-cover rounded-md"
-              />
-            </div>
-            <div class="w-full md:w-2/3 flex flex-col justify-between text-left p-3">
-              <div class="flex justify-between font-bold">
-                <h3 class="text-lg">{{ itemStore.item.productName }}</h3>
-                <p class="">{{ itemStore.amount | currency }}</p>
+      <div class="flex flex-col lg:flex-row gap-8">
+        <div class="flex flex-col gap-4">
+          @for (itemStore of cartStore.cart().items; track $index) {
+            <div
+              class="flex flex-wrap md:flex-nowrap mb-8 shadow-md p-4 rounded-lg bg-white items-center"
+            >
+              <div class="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
+                <img
+                  [src]="'../../../../assets/images/' + itemStore.item.imageUrl"
+                  alt="{{ itemStore.item.productName }}"
+                  class="h-[9em] object-cover rounded-md"
+                />
               </div>
-              <div class="my-2">
-                <app-ratings [score]="itemStore.item.ratings"></app-ratings>
-              </div>
+              <div class="w-full md:w-2/3 flex flex-col justify-between text-left p-3">
+                <div class="flex justify-between font-bold">
+                  <h3 class="text-lg">{{ itemStore.item.productName }}</h3>
+                  <p class="">{{ itemStore.amount | currency }}</p>
+                </div>
+                <div class="my-2">
+                  <app-ratings [score]="itemStore.item.ratings"></app-ratings>
+                </div>
 
-              <hr class="my-3 border-gray-300" />
-              <div class="flex items-center flex-wrap gap-4">
-                <div class="flex border rounded overflow-hidden">
-                  <button
-                    class="px-3 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors duration-300 font-bold shadow-sm cursor-pointer"
-                    (click)="updateQuantityBtn($event, itemStore)"
-                  >
-                    -
-                  </button>
+                <hr class="my-3 border-gray-300" />
+                <div class="flex items-center flex-wrap gap-4">
+                  <div class="flex border rounded overflow-hidden">
+                    <button
+                      class="px-3 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors duration-300 font-bold shadow-sm cursor-pointer"
+                      (click)="updateQuantityBtn($event, itemStore)"
+                    >
+                      -
+                    </button>
 
-                  <div class="text-center border-l px-3 py-1 font-semibold min-w-[3rem]">
-                    {{ itemStore.count }}
+                    <div class="text-center border-l px-3 py-1 font-semibold min-w-[3rem]">
+                      {{ itemStore.count }}
+                    </div>
+                    <button
+                      class="px-3 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors duration-300 font-bold shadow-sm cursor-pointer"
+                      (click)="updateQuantityBtn($event, itemStore)"
+                    >
+                      +
+                    </button>
                   </div>
                   <button
-                    class="px-3 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors duration-300 font-bold shadow-sm cursor-pointer"
-                    (click)="updateQuantityBtn($event, itemStore)"
+                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-300 font-semibold shadow-sm cursor-pointer gap-2"
+                    (click)="removeItem(itemStore)"
                   >
-                    +
+                    <fa-icon [icon]="faTrash" class="text-sm"></fa-icon>
+                    Remove Item
                   </button>
                 </div>
-                <button
-                  class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-300 font-semibold shadow-sm cursor-pointer gap-2"
-                  (click)="removeItem(itemStore)"
-                >
-                  <fa-icon [icon]="faTrash" class="text-sm"></fa-icon>
-                  Remove Item
-                </button>
               </div>
             </div>
+          }
+        </div>
+        <div class="w-full lg:w-[30%] h-fit bg-gray-50 p-6 rounded-lg shadow-md">
+          <h2 class="text-2xl font-bold mb-4">Summary:</h2>
+          <div class="text-left space-y-2">
+            <p class="text-gray-600">Subtotal: {{ cartStore.cart().totalAmount | currency }}</p>
+            <p class="text-gray-600">
+              Shipping Charges:
+              <span class="font-semibold">
+                {{
+                  cartStore.cart().totalAmount > 100
+                    ? 'Free'
+                    : (cartStore.cart().totalAmount * 0.1 | currency)
+                }}
+              </span>
+            </p>
+            <hr />
+            <p class="text-lg font-bold">
+              Total:
+              <span class="text-black">
+                {{
+                  cartStore.cart().totalAmount > 100
+                    ? (cartStore.cart().totalAmount | currency)
+                    : (cartStore.cart().totalAmount * 1.1 | currency)
+                }}
+              </span>
+            </p>
           </div>
-        }
+          <button
+            type="button"
+            class="w-full mt-5 px-4 py-3 bg-black text-white rounded-full hover:bg-gray-700 transition-colors duration-300 font-semibold shadow-sm cursor-pointer"
+          >
+            Checkout
+          </button>
+        </div>
       </div>
-      <div class="mt-6 flex justify-end items-center gap-4"></div>
     </div>
   } @else {
     <div
