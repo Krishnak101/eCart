@@ -23,6 +23,6 @@ export class Products {
   ) {}
 
   addToCart(product: Product): void {
-    this.cart.addProductToCart(product);
+    this.cart.increaseProductQuantity(product);
   }
 }

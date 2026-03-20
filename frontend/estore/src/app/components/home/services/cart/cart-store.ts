@@ -21,7 +21,7 @@ export class CartStore {
     };
   });
 
-  addProductToCart(product: Product): void {
+  increaseProductQuantity(product: Product): void {
     const currentCartItems = this._products();
     const existingCartItemIndex = currentCartItems.findIndex(
       (existingProduct) => existingProduct.item.id === product.id,
@@ -31,7 +31,7 @@ export class CartStore {
       const updatedCartItems = [...currentCartItems];
       const existingCartItem = updatedCartItems[existingCartItemIndex];
       existingCartItem.count += 1;
-      existingCartItem.amount = existingCartItem.count * existingCartItem.item.price;
+      existingCartItem.amount = existingCartItem.amount + existingCartItem.item.price;
       this._products.set(updatedCartItems);
     } else {
       const newCartItem: CartItem = {
@@ -41,5 +41,25 @@ export class CartStore {
       };
       this._products.set([...currentCartItems, newCartItem]);
     }
+  }
+
+  decreaseProductQuantity(cartItem: CartItem): void {
+    const updatedCartItems = this._products()
+      .map((item) => {
+        if (item.item.id === cartItem.item.id) {
+          if (item.count <= 1) {
+            return null; // Mark for removal
+          }
+          return { ...item, count: item.count - 1, amount: item.amount - item.item.price };
+        }
+        return item;
+      })
+      .filter(Boolean) as CartItem[]; // Remove null items
+    this._products.set(updatedCartItems);
+  }
+
+  removeProduct(cartItem: CartItem): void {
+    const updatedCartItems = this._products().filter((item) => item.item.id !== cartItem.item.id);
+    this._products.set(updatedCartItems);
   }
 }

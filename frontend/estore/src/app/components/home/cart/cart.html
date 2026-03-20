@@ -17,7 +17,7 @@
             <div class="w-full md:w-2/3 flex flex-col justify-between text-left p-3">
               <div class="flex justify-between font-bold">
                 <h3 class="text-lg">{{ itemStore.item.productName }}</h3>
-                <p class="">{{ itemStore.item.price | currency }}</p>
+                <p class="">{{ itemStore.amount | currency }}</p>
               </div>
               <div class="my-2">
                 <app-ratings [score]="itemStore.item.ratings"></app-ratings>
@@ -28,6 +28,7 @@
                 <div class="flex border rounded overflow-hidden">
                   <button
                     class="px-3 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors duration-300 font-bold shadow-sm cursor-pointer"
+                    (click)="updateQuantityBtn($event, itemStore)"
                   >
                     -
                   </button>
@@ -37,12 +38,14 @@
                   </div>
                   <button
                     class="px-3 py-1 bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors duration-300 font-bold shadow-sm cursor-pointer"
+                    (click)="updateQuantityBtn($event, itemStore)"
                   >
                     +
                   </button>
                 </div>
                 <button
                   class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors duration-300 font-semibold shadow-sm cursor-pointer gap-2"
+                  (click)="removeItem(itemStore)"
                 >
                   <fa-icon [icon]="faTrash" class="text-sm"></fa-icon>
                   Remove Item

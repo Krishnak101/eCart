@@ -5,7 +5,7 @@ import { CartItem } from '../types/cart-type';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBoxOpen, faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { Ratings } from "../../ratings/ratings";
+import { Ratings } from '../../ratings/ratings';
 
 @Component({
   selector: 'app-cart',
@@ -24,5 +24,17 @@ export class CartComponent {
 
   navigateToHome(): void {
     this.router.navigate(['/home/products']);
+  }
+
+  updateQuantityBtn($event: any, cartItem: CartItem): void {
+    if ($event.target.innerText === '+') {
+      this.cartStore.increaseProductQuantity(cartItem.item);
+    } else {
+      this.cartStore.decreaseProductQuantity(cartItem);
+    }
+  }
+
+  removeItem(cartItem: CartItem): void {
+    this.cartStore.removeProduct(cartItem);
   }
 }

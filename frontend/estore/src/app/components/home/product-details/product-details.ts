@@ -42,7 +42,7 @@ export class ProductDetails {
   addToCart(): void {
     const currentProduct = this.product();
     if (currentProduct) {
-      this.cart.addProductToCart(currentProduct);
+      this.cart.increaseProductQuantity(currentProduct);
     }
   }
 }
