@@ -35,6 +35,13 @@
 - **Root Cause:** **Structural Type Validation.** While the emitted object `{ categoryId: ..., keyword: ... }` looked like a `SearchKeyword`, Angular's strict template checking sometimes fails to implicitly cast a raw object literal to a custom interface when passed through an event binding. This often results in the parent component's handler receiving a generic `Event` or `any` instead of the specific type.
 - **Fix:** Explicitly ensured the emitted data was treated as a `SearchKeyword` type. This provided the "type safety" necessary for the `Home` component to recognize the properties `categoryId` and `keyword` without throwing a compilation error.
 
+## 6. SSR ReferenceError: sessionStorage in signalStore
+
+**Issue:** `ReferenceError: sessionStorage is not defined` at `CartStore.loadFromSession` during server-side pre-rendering.
+
+- **Root Cause:** **Server-Side Execution Context.** Angular SignalStores (or services) provided in 'root' are instantiated on the Node.js server during the SSR phase. Because `sessionStorage` is a browser-only API, any direct calls to it during the instantiation or `onInit` phase will crash the server-side process.
+- **Fix:** Injected `PLATFORM_ID` into the store and wrapped the storage access logic in an `isPlatformBrowser()` check. This ensures the cart data is only retrieved once the application has hydrated in the user's browser.
+
 # Dependencies
 
 ## Installed Fontawesome libraries:

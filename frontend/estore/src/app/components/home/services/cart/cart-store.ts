@@ -1,9 +1,39 @@
-import { computed, signal } from '@angular/core';
+import { computed, effect, signal } from '@angular/core';
 import { CartItem } from '../../types/cart-type';
 import { Product } from '../../types/products-type';
+import { inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 export class CartStore {
+  private platformId = inject(PLATFORM_ID);
   private readonly _products = signal<CartItem[]>([]);
+
+  // private _saveEffect = effect(() => {
+  //   const productsInCart = this._products();
+  //   if (productsInCart.length === 0) {
+  //     sessionStorage.removeItem('cart');
+  //   } else {
+  //     sessionStorage.setItem('cart', JSON.stringify(productsInCart));
+  //   }
+  // });
+
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      this._products.set(this.loadFromSession());
+    }
+
+    // 3. Ensure the effect only runs storage logic in the browser
+    effect(() => {
+      const productsInCart = this._products();
+      if (isPlatformBrowser(this.platformId)) {
+        if (productsInCart.length === 0) {
+          sessionStorage.removeItem('cart');
+        } else {
+          sessionStorage.setItem('cart', JSON.stringify(productsInCart));
+        }
+      }
+    });
+  }
 
   private totalAmount = computed(() => {
     return this._products().reduce((total, item) => total + item.amount, 0);
@@ -61,5 +91,17 @@ export class CartStore {
   removeProduct(cartItem: CartItem): void {
     const updatedCartItems = this._products().filter((item) => item.item.id !== cartItem.item.id);
     this._products.set(updatedCartItems);
+  }
+
+  private loadFromSession(): CartItem[] {
+    if (!isPlatformBrowser(this.platformId)) return [];
+
+    const storedProductsInCart = sessionStorage.getItem('cart');
+    try {
+      return storedProductsInCart ? JSON.parse(storedProductsInCart) : [];
+    } catch (error) {
+      console.error('Error parsing cart from session storage:', error);
+      return [];
+    }
   }
 }
