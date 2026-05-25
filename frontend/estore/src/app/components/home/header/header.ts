@@ -4,12 +4,12 @@ import { faSearch, faUserCircle, faHeart, faShoppingCart } from '@fortawesome/fr
 import { CategoriesStore } from '../services/category/categories-store';
 import { CartStore } from '../services/cart/cart-store';
 import { SearchKeyword } from '../types/searchKeyword-type';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
   providers: [CategoriesStore],

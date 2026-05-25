@@ -34,12 +34,10 @@
     <div class="flex items-center w-[27%] gap-6 justify-end h-full">
       <div class="flex items-center gap-2 text-white">
         <fa-icon [icon]="faUserCircle" class="text-white text-[1.3em]"></fa-icon>
-        <h5>
-          <a href="#" class="text-white no-underline hover:underline"> Sign In</a>
-        </h5>
-        <span>/</span>
-        <h5>
-          <a href="#" class="text-white no-underline hover:underline">Register</a>
+        <h5
+          class="text-white font-semibold hover:bg-gray-100 hover:text-black hover:text-bold px-1 py-1 rounded-lg transition-colors duration-300 cursor-pointer"
+        >
+          <a routerLink="/home/signup" class="no-underline"> Login / Register</a>
         </h5>
       </div>
     </div>

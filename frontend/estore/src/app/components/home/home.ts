@@ -25,11 +25,13 @@ export class Home {
   ) {
     this.categoriesStore.loadCategories();
     this.productsStore.loadProducts();
-    router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
-      if ((event as NavigationEnd).url === '/home') {
-        router.navigate(['/home/products']);
-      }
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if ((event as NavigationEnd).url === '/home') {
+          this.router.navigate(['/home/products']);
+        }
+      });
   }
 
   onSelectMainCategory(mainCategoryId: number): void {
