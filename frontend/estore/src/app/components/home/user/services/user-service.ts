@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../types/user-type';
+import { User } from '../../types/user-type';
 
 @Injectable()
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  createUser(user: User): Observable<User> {
+  createUser(user: User): Observable<any> {
     const url: string = 'http://localhost:8080/signup';
-    return this.http.post<User>(url, user);
+    return this.http.post<any>(url, user);
   }
 }
