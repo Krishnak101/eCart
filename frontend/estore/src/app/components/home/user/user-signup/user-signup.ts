@@ -9,19 +9,24 @@ import {
 import { User } from '../../types/user-type';
 import { NgClass } from '@angular/common';
 import { matchPasswords } from './validators/match-password-validator';
+import { UserService } from '../services/user-service';
 
 @Component({
   selector: 'app-user-signup',
   imports: [ReactiveFormsModule, NgClass],
   templateUrl: './user-signup.html',
   styleUrl: './user-signup.css',
+  providers: [UserService],
 })
 export class UserSignup {
   userSignupForm: FormGroup;
   alertMessage: string = '';
   alertType: number = 0; //0-success, 1-warning, 2-error
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+  ) {
     this.userSignupForm = this.formBuilder.group(
       {
         username: ['', Validators.required],
@@ -58,5 +63,37 @@ export class UserSignup {
       this.userSignupForm.markAllAsTouched();
       return;
     }
+
+    const { username, email, password, address, city, state, pin } = this.userSignupForm.value;
+    const newUser: User = {
+      username,
+      email,
+      password,
+      address,
+      city,
+      state,
+      pin,
+    };
+
+    this.userSignupForm.disable();
+
+    this.userService.createUser(newUser).subscribe({
+      next: (result) => {
+        this.userSignupForm.enable();
+        if (result.message === 'Success') {
+          this.alertMessage = 'User created successfully.';
+          this.alertType = 0;
+          this.userSignupForm.reset();
+        } else if (result.message === 'User already exists') {
+          this.alertMessage = result.message;
+          this.alertType = 1;
+        }
+      },
+      error: (error: any) => {
+        this.userSignupForm.enable();
+        this.alertMessage = error.message || 'Error creating user.';
+        this.alertType = 2;
+      },
+    });
   }
 }
