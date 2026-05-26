@@ -52,18 +52,23 @@ public class AuthController {
      * Endpoint for User Signin / Login
      */
     @PostMapping("/signin")
-    public ResponseEntity<JwtTokenResponse> signin( @RequestBody JwtTokenRequest jwtTokenRequest) {
+    public ResponseEntity<?> signin( @RequestBody JwtTokenRequest jwtTokenRequest) {
         // 1. Authenticate the credentials against the database
         var authenticationToken = new UsernamePasswordAuthenticationToken(
                 jwtTokenRequest.username(), 
                 jwtTokenRequest.password());
+        String jwtToken = null;
+        try {
         
-        var authentication = authenticationManager.authenticate(authenticationToken);
-        
-        // 2. If authentication is successful, generate the JWT
-        var token = tokenService.generateToken(authentication);
-        
+	        var authentication = authenticationManager.authenticate(authenticationToken);
+	        
+	        // 2. If authentication is successful, generate the JWT
+	        jwtToken = tokenService.generateToken(authentication);
+	        
+		} catch (Exception ex) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message","Invalid username or password"));
+		}
         // 3. Return the token token in a structured response object
-        return ResponseEntity.ok(new JwtTokenResponse(token));
+        return ResponseEntity.ok(new JwtTokenResponse(jwtToken));
     }
 }
