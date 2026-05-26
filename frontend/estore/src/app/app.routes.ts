@@ -4,6 +4,7 @@ import { ProductsGallery } from './components/home/products-gallery/products-gal
 import { ProductDetails } from './components/home/product-details/product-details';
 import { CartComponent } from './components/home/cart/cart';
 import { UserSignup } from './components/home/user/user-signup/user-signup';
+import { UserLoginComponent } from './components/home/user/user-login-component/user-login-component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
       {
         path: 'signup',
         component: UserSignup,
+      },
+      {
+        path: 'login',
+        component: UserLoginComponent,
       },
     ],
   },
