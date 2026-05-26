@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { User } from '../../types/user-type';
 import { NgClass } from '@angular/common';
+import { matchPasswords } from './validators/match-password-validator';
+
 @Component({
   selector: 'app-user-signup',
   imports: [ReactiveFormsModule, NgClass],
@@ -20,19 +22,24 @@ export class UserSignup {
   alertType: number = 0; //0-success, 1-warning, 2-error
 
   constructor(private formBuilder: FormBuilder) {
-    this.userSignupForm = this.formBuilder.group({
-      username: [''],
-      email: [''],
-      password: [''],
-      confirmPassword: [''],
-      address: [''],
-      city: [''],
-      state: [''],
-      pin: [''],
-    });
+    this.userSignupForm = this.formBuilder.group(
+      {
+        username: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+        address: [''],
+        city: [''],
+        state: [''],
+        pin: [''],
+      },
+      {
+        validator: matchPasswords,
+      },
+    );
   }
-  get firstName(): AbstractControl<any, any> | null {
-    return this.userSignupForm.get('firstName');
+  get userName(): AbstractControl<any, any> | null {
+    return this.userSignupForm.get('username');
   }
   get email(): AbstractControl<any, any> | null {
     return this.userSignupForm.get('email');
