@@ -76,23 +76,25 @@ export class UserSignup {
     };
 
     this.userSignupForm.disable();
-
     this.userService.createUser(newUser).subscribe({
       next: (result) => {
         this.userSignupForm.enable();
-        if (result.message === 'Success') {
+        if (result?.message === 'Account created successfully.') {
           this.alertMessage = 'User created successfully.';
           this.alertType = 0;
           this.userSignupForm.reset();
-        } else if (result.message === 'User already exists') {
-          this.alertMessage = result.message;
-          this.alertType = 1;
         }
       },
       error: (error: any) => {
         this.userSignupForm.enable();
-        this.alertMessage = error.message || 'Error creating user.';
-        this.alertType = 2;
+        console.error('Error creating user:', error);
+        if (error.error?.message === 'User already exists.') {
+          this.alertMessage = error.error.message;
+          this.alertType = 1;
+        } else {
+          this.alertMessage = error.message || 'Error creating user.';
+          this.alertType = 2;
+        }
       },
     });
   }
